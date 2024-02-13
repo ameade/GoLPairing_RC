@@ -1,38 +1,33 @@
 import copy
+def progress_board(old_board):
+    new_board = copy.deepcopy(old_board)
+    for row in range(len(new_board)):
+        for col in range(len(new_board[row])):
+            count = count_neighbors(old_board, row, col)
+            # rule 1
+            if count < 2:
+                new_board[row][col] = False
 
+    return new_board
 
-
-def dead_or_alive(world, row, col):
-    row_coord = row
-    col_coord = col
-    if row >= len(world):
-        row_coord = row % len(world)
-    if col >= len(world[row_coord]):
-        col_coord = col % len(world[row_coord])
-    return world[row_coord][col_coord]
-
-def count_neighbors(world, row, col):
+def count_neighbors(board, row, col):
     count = 0
-    for row_mod in (-1, 0, 1):
-        for col_mod in (-1, 0, 1):
-            if not row_mod == col_mod == 0:
-                count += dead_or_alive(world, row + row_mod, col + col_mod)
+    neighborhood = get_neighborhood(board, row, col)
+    for board_row in neighborhood:
+        for board_cell in board_row:
+            if board_cell:
+                count += 1
 
+    if board[row][col]:
+        count -= 1
     return count
 
-def progress_world(old_world):
-    """ Return the next state of the game world.
-
-    :param old_world: A 2d array with 0's representing dead cells and 1's representing live cells
-    :return: Next state of the world with game of life rules applied
-    """
-    return copy.deepcopy(old_world)
-
-def print_world(world):
-    for row in world:
-        row_string = "".join([str(cell) for cell in row])
-        print(row_string)
-
+def get_neighborhood(board, row, col):
+    neighborhood = [[False, False, False], [False, False, False], [False, False, False]]
+    for row_modifier in (-1, 0, 1):
+        for col_modifier in (-1, 0, 1):
+            neighborhood[row_modifier+1][col_modifier+1] = board[row + row_modifier][col + col_modifier]
+    return neighborhood
 
 if __name__ == "__main__":
-    print_world([[0, 0], [0, 0]])
+    pass
