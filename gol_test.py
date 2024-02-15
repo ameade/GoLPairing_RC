@@ -44,6 +44,7 @@ class TestProgressBoard(unittest.TestCase):
                  [False, True, True, True],
                  [False, False, False, True]]
         self.assertEqual(1, count_neighbors(board, 1, 1))
+    
     def test_count_neighbors_4by3(self):
         board = [[False, False, False, True],
                  [False, True, True, True],
