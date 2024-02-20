@@ -1,4 +1,5 @@
 import copy
+
 def progress_board(old_board):
     new_board = copy.deepcopy(old_board)
     for row in range(len(new_board)):
